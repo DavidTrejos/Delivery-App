@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   ImageBackground: {
     width: '100%',
     height: '100%',
-    opacity:0.8,
+    opacity:0.7,
     bottom: '30%'
   },
   form:{
@@ -49,8 +49,8 @@ const styles = StyleSheet.create({
 
   },
   logoImage:{
-    width: '100%',
-    height: '100%',
+    width: 100,
+    height: 100,
   },
   logoText:{
     color:'white',
