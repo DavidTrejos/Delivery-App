@@ -1,137 +1,38 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View,Image, TextInput, Button, ToastAndroid } from 'react-native';
-import { RoundedButton } from './src/components/RoundedButton';
+import * as React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { HomeScreen } from './src/views/home/Home';
+import { RegisterScreen } from './src/views/register/Register';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Image 
-      source={require('./assets/chef.jpg')} 
-      style={styles.ImageBackground}
-      />
-      <View style={styles.logoContainer}>
-        <Image
-        source={require('./assets/logo.png')}
-        style={styles.logoImage}
-        />
-        <Text style={styles.logoText}>FOOD APP</Text>
-      </View>
-
-      <View style={styles.form}>
-
-        <Text style={styles.formText}>INGRESAR</Text>
-
-        <View style={styles.formInput}>
-          <Image
-          style={styles.formIcon}
-          source={require('./assets/email.png')}
-          />
-          <TextInput
-          style={styles.formTextInput}
-          placeholder='Correo Electrónico'
-          keyboardType='email-address'
-          />
-        </View>
-
-        <View style={styles.formInput}>
-          <Image
-          style={styles.formIcon}
-          source={require('./assets/password.png')}
-          />
-          <TextInput
-          style={styles.formTextInput}
-          placeholder='Contraseña'
-          keyboardType='default'
-          secureTextEntry={true}
-          />
-        </View>
-
-        <View style={{marginTop:30}}>
-
-            <RoundedButton text='ENTRAR' onPress={() => ToastAndroid.show('¡HOLA!',ToastAndroid.SHORT)}/>
-
-        </View>
-
-        <View style={styles.formRegister}>
-        <Text>¿No tienes cuenta?</Text>
-        <Text style={styles.formRegisterText}>Regístrate</Text>
-
-
-        </View>
-      </View>
-    </View>
-  );
+//Config to define that the screen don´t pass any data. To solve the error of  not over load matches this call
+export type RootStackParamList = {
+  HomeScreen:undefined,
+  RegisterScreen:undefined,
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'black',
-  },
-  ImageBackground: {
-    width: '100%',
-    height: '100%',
-    opacity:0.7,
-    bottom: '30%'
-  },
-  form:{
-    width: '100%',
-    height: '40%',
-    backgroundColor:'white',
-    position: 'absolute',
-    bottom: 0,
-    borderTopLeftRadius:40,
-    borderTopRightRadius:40,
-    padding:30
-  },
-  formText:{
-    fontWeight: 'bold',
-    fontSize:16
-  },
-  formIcon:{
-      width: 25,
-      height:25,
-      marginTop:5
-  },
-  formTextInput:{
-    flex:1,
-    borderBottomWidth:1,
-    borderBottomColor:'#AAAAAA',
-    marginLeft:15
-  },
-  formInput:{
-    flexDirection:'row',
-    marginTop:30
-  },
-  formRegister:{
-    flexDirection:'row',
-    justifyContent:'center',
-    marginTop:30
-  },
-  formRegisterText:{
-    fontStyle:'italic',
-    color: 'orange',
-    borderBottomWidth:1,
-    borderBottomColor:'orange',
-    fontWeight:'bold',
-    marginLeft:10
-  },
-  logoContainer:{
-    position:'absolute',
-    alignSelf:'center',
-    top: '15%'
+const Stack = createNativeStackNavigator <RootStackParamList>();
 
-  },
-  logoImage:{
-    width: 100,
-    height: 100,
-  },
-  logoText:{
-    color:'white',
-    textAlign:'center',
-    fontSize: 20,
-    marginTop:10,
-    fontWeight: 'bold'
-  },
- 
-});
+const App = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{
+        headerShown: false
+      }}>
+        
+        <Stack.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+        />
+        <Stack.Screen name="RegisterScreen" 
+        component={RegisterScreen} 
+        options={{
+          headerShown:true,
+          title: 'Nuevo usuario'
+        }}/> 
+       
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+export default App;
