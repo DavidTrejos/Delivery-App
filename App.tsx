@@ -1,8 +1,9 @@
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import { HomeScreen } from './src/views/home/Home';
-import { RegisterScreen } from './src/views/register/Register';
+import { RegisterScreen } from './src/Presentation/views/register/Register';
+import { HomeScreen } from './src/Presentation/views/home/Home';
+
 
 //Config to define that the screen don´t pass any data. To solve the error of  not over load matches this call
 export type RootStackParamList = {
