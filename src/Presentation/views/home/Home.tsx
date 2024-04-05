@@ -1,16 +1,33 @@
-import React, {useState} from "react";
+import React, {useState,useEffect} from "react";
 import {useNavigation} from "@react-navigation/native";
 import {Image,View,Text,TextInput,ToastAndroid,StyleSheet, TouchableOpacity} from "react-native";
 import {RoundedButton} from "../../components/RoundedButton";
-import { StackNavigationProp } from "@react-navigation/stack";
+import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack";
 import useViewModel from './ViewModel';
 import { RootStackParamList } from "../../../../App";
 import { CustomTextInput } from "../../components/CustomTextInput";
 import styles from './Styles';
-export const HomeScreen = () =>{
+import { ProfileInfoScreen } from "../profile/info/ProfileInfo";
 
-const { email, password,onChange} = useViewModel();
-const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()    
+interface Props extends StackScreenProps <RootStackParamList,'HomeScreen'>{};
+
+export const HomeScreen = ({navigation, route}:Props) =>{
+
+const { email, password,errorMesage, onChange, login,user} = useViewModel();
+
+
+useEffect(() =>{
+    if(errorMesage !== ''){
+        ToastAndroid.show(errorMesage,ToastAndroid.LONG);
+    }
+
+},[errorMesage])
+
+useEffect (() =>{
+    if(user?.id !== null && user?.id !== undefined) {
+        navigation.navigate('ProfileInfoScreen');
+    }
+},[user])
   
 return (
     <View style={styles.container}>
@@ -52,10 +69,7 @@ return (
 
         <View style={{marginTop:30}}>
 
-            <RoundedButton text='ENTRAR' onPress={() => {
-                console.log('Email:' + email);
-                console.log('Password:' + password);
-            }}/>
+            <RoundedButton text='ENTRAR' onPress={() => login()}/>
 
         </View>
 
