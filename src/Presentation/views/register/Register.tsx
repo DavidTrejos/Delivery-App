@@ -1,13 +1,15 @@
-import React from "react";
-import {Image,View,Text, ScrollView, ToastAndroid} from "react-native";
+import React, { useState } from "react";
+import {Image,View,Text, ScrollView, ToastAndroid, TouchableOpacity} from "react-native";
 import {RoundedButton} from "../../components/RoundedButton";
 import useViewModel from './ViewModel';
 import { CustomTextInput } from "../../components/CustomTextInput";
 import styles from './Styles'
 import { useEffect } from "react";
-export const RegisterScreen = () => {
-    const { name, lastname,email,phone,password,confirmPassword,errorMessage,onChange,register} = useViewModel();
+import { ModalPickImage } from "../../components/ModalPickImage";
 
+export const RegisterScreen = () => {
+    const { name, lastname,email,image,phone,password,confirmPassword,errorMessage,onChange,register,pickImage,takePhoto} = useViewModel();
+    const [modalVisible, setModalVisible] = useState(false);
     
     useEffect(() =>{
 
@@ -24,10 +26,21 @@ export const RegisterScreen = () => {
                 style={styles.ImageBackground}
             />
             <View style={styles.logoContainer}>
-                <Image
-                    source={require('../../../../assets/user_image.png')}
-                    style={styles.logoImage}
-                />
+                <TouchableOpacity onPress={() => setModalVisible(true)}>
+                 {
+                        image == ''
+                        ? <Image
+                        source={require('../../../../assets/user_image.png')}
+                        style={styles.logoImage}
+                    />
+                    :<Image
+                        source={{ uri:image}}
+                        style={styles.logoImage}
+                    />
+                 }
+                
+                </TouchableOpacity>
+                
                 <Text style={styles.logoText}>SELECCIONA UNA IMAGEN</Text>
             </View>
     
@@ -97,6 +110,14 @@ export const RegisterScreen = () => {
                 </ScrollView>
     
             </View>
+
+            <ModalPickImage
+            openGallery={pickImage}
+            openCamera={takePhoto}
+            modalUseState={modalVisible}
+            setModalUseState={setModalVisible}
+            />
+
         </View>
         );
     }

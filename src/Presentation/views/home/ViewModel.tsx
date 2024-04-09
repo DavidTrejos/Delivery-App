@@ -1,8 +1,8 @@
 
 import React, {useEffect, useState}from 'react'
 import { LoginAuthUseCase } from '../../../Domain/useCases/auth/LoginAuth';
-import { SaveUserUseCase } from '../../../Domain/useCases/userLocal/SaveUser';
-import { GetUserUseCase } from '../../../Domain/useCases/userLocal/GetUser';
+import { SaveUserLocalUseCase } from '../../../Domain/useCases/userLocal/SaveUserLocal';
+import { GetUserLocalUseCase } from '../../../Domain/useCases/userLocal/GetUserLocal';
 import { useUserLocal } from '../../hooks/useUserLocal';
 
 
@@ -14,17 +14,10 @@ const HomeViewModel = () =>{
         password: '',
     });
 
-    const {user} = useUserLocal();
+    const {user, getUserSession} = useUserLocal();
     console.log('USUARIO DE SESION:'+ JSON.stringify(user));
 
-    useEffect(()=>{
-        getUserSession();
-    },[])
-
-    const getUserSession = async () => {
-        const user = await GetUserUseCase();
-        console.log('USUARIO SESION:' + JSON.stringify(user));
-    }
+   
 
     const onChange =(property: string, value: any) => {
         
@@ -42,7 +35,8 @@ const HomeViewModel = () =>{
                 setErrorMessage(response.message);
             }
             else{
-                await SaveUserUseCase(response.data);
+                await SaveUserLocalUseCase(response.data);
+                getUserSession();
             }
         }
         
